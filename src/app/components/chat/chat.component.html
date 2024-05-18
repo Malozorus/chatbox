@@ -1,0 +1,10 @@
+<div id="chat">
+    <div class="messageList">
+      <app-message-list [messages]="messages" (messagesChange)="onChange($event)"/>
+    </div>
+    <div class="messageInput">
+      <app-message-input [(inputMessage)]="inputMessage" (sendButtonClicked)="sendInputMessage()"/>
+    </div>
+  </div>
+  
+  

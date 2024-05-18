@@ -1,0 +1,39 @@
+#message-bar {
+    display: flex;
+    background-color: white;
+    border-radius: 40px;
+    justify-content: center;
+    margin: 50px auto;
+    flex-grow: 1;
+    box-shadow: 3px 3px 10px -3px grey;
+    overflow: hidden; 
+}
+
+button{
+    border: none;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 40px;
+    background-color: rgb(205, 205, 205);
+    width: 30px;
+    cursor: pointer;
+}
+
+button img {
+    max-width: 18px;
+    max-height: 18px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button:hover {
+    background-color: rgb(221, 221, 221);
+}
+
+input {
+    all: unset;
+    flex-grow: 1;
+    padding: 10px 20px;
+}

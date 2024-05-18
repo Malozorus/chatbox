@@ -1,0 +1,29 @@
+.messageList {
+    flex-grow: 1; /* Takes up the remaining space */
+    overflow-y: scroll;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between messages */
+    scroll-behavior: smooth;
+    height: xyz; /* Set a fixed height for the message list */
+}
+
+.messageBox {
+    max-width: 70%; /* Adjust the max-width as needed */
+    background-color: #f1f1f1; /* Background color for the message box */
+    padding: 10px 15px; /* Padding inside the message box */
+    border-radius: 10px; /* Rounded corners */
+    align-self: flex-start; /* Align messages to the left */
+    word-wrap: break-word; /* Ensure long words wrap to the next line */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: Add a subtle shadow */
+}
+.messageBox.sent {
+    background-color: #dcf8c6; /* Background color for sent messages */
+    align-self: flex-end; /* Align sent messages to the right */
+}
+
+.messageBox.received {
+    background-color: #f1f1f1; /* Background color for received messages */
+    align-self: flex-start; /* Align received messages to the left */
+}
