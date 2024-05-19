@@ -29,7 +29,6 @@ export class ChatService {
   }
 
   formatOllamaChatResponseToMessage(response: OllamaChatResponseBody): Message {
-    console.log(response);
     const message: Message = {
         id: '', // Vous devez peut-être générer un ID unique ici ou récupérer depuis une autre source
         model: response.model,
@@ -66,7 +65,6 @@ postChat(message: Message): Observable<Message> {
         }
       }).pipe(
           map(data => { 
-            console.log(data);
             return this.formatOllamaChatResponseToMessage(data)
             }) // Utilise l'opérateur `map` pour transformer la réponse
         ) 

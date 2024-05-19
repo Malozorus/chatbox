@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model, effect, ViewChild} from '@angular/core';
 import { Message } from '../../types';
 import { MessageIdServiceService } from '../../services/message-id-service.service';
 import { ChatService } from '../../services/chat.service';
@@ -14,8 +14,9 @@ import { MessageListComponent } from '../message-list/message-list.component';
 })
 export class ChatComponent {
   
-  inputMessage: string = ''; // Declare the type of the 'inputMessage' variable as a string // Declare the type of the 'messages' array as an array of strings
-  messages: Message[] = [];
+  inputMessage: string = ''; 
+  messages = model<Message[]>([]);
+ 
 
   constructor( 
     private messageIdService: MessageIdServiceService,
@@ -31,8 +32,9 @@ export class ChatComponent {
       "role": "assistant",
       "content": 'salut, comment ça va ?',
     };
-    this.messages.push(message1);
-    this.messages.push(message2);
+    this.messages.update(values => {
+      return [...values, message1, message2];
+   });
   }
 
   sendInputMessage() {
@@ -41,15 +43,18 @@ export class ChatComponent {
       "role": "user",
       "content": this.inputMessage,
     };
-    this.messages.push(message);
+    this.pushMessage(message);
     this.inputMessage = '';
     this.chatService.postChat(message).subscribe((data) => {
-      this.messages.push(data);
+      data.id = this.messageIdService.generateUniqueId();
+      this.pushMessage(data);
     });
-    
   }
 
-  onChange(event: any) {
-    console.log(event);
+  pushMessage(message: Message) {
+    this.messages.update(values => {
+      return [...values, message];
+   });
   }
+
 }

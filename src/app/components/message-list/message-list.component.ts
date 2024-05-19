@@ -1,6 +1,7 @@
-import { Component, Input, ElementRef, OnChanges, SimpleChanges, ViewChild, Renderer2} from '@angular/core';
+import { Component, effect,model, ViewChild, ElementRef } from '@angular/core';
 import { Message } from '../../types';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-message-list',
@@ -9,17 +10,17 @@ import { CommonModule } from '@angular/common';
   templateUrl: './message-list.component.html',
   styleUrl: './message-list.component.scss'
 })
-export class MessageListComponent implements OnChanges{
-  // @ViewChild('scrollableElement') private scrollableElementRef: ElementRef;
-  @Input() messages: Message[] = [];
+export class MessageListComponent{
 
-  constructor(private el: ElementRef) {
+  messages = model<Message[]>([]);
+  @ViewChild('messageList') messageList!: ElementRef;
+  
+  constructor(private router: Router) {
+    effect(() => {
+      console.log(`New changes in messages: ${this.messages()}`);
+      this.messageList.nativeElement.scrollTop  = this.messageList.nativeElement.scrollHeight;
+      this.router.navigate(['/chat', {'messageList': this.messages().length }]);
+      console.log(this.messageList.nativeElement.scrollTop , this.messageList.nativeElement.scrollHeight)  
+    });
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['messages']) {
-      console.log('messages changed');
-    }
-  }
-
 }
