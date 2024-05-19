@@ -13,14 +13,13 @@ import { Router } from '@angular/router';
 export class MessageListComponent{
 
   messages = model<Message[]>([]);
-  @ViewChild('messageList') messageList!: ElementRef;
   
-  constructor(private router: Router) {
+  constructor(
+   private router: Router
+  ) {
     effect(() => {
       console.log(`New changes in messages: ${this.messages()}`);
-      this.messageList.nativeElement.scrollTop  = this.messageList.nativeElement.scrollHeight;
-      this.router.navigate(['/chat', {'messageList': this.messages().length }]);
-      console.log(this.messageList.nativeElement.scrollTop , this.messageList.nativeElement.scrollHeight)  
+      this.router.navigate(['/chat'], { fragment: 'message' + this.messages().length});
     });
   }
 }
