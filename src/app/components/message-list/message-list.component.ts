@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
   styleUrl: './message-list.component.scss',
 })
 export class MessageListComponent {
-  messages = model<Message[]>([]);
+  messages = input.required<Message[]>();
 
   constructor(private router: Router) {
     effect(() => {
