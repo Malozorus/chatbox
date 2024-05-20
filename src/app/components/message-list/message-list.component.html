@@ -1,11 +1,24 @@
 <div #messageList class="messageList">
-  @for (message of messages(); track $index) {
+  @for (message of messages(); track messages()){
   <div
     class="messageBox"
     [ngClass]="isUser(message) ? 'sent' : 'received'"
     id="message-{{ $index }}"
   >
-    <span> {{ message.content }}<span *ngIf="!isUser(message) && message.loading">...</span> </span>
+    <span> <div markdown emoji clipboard [data]="message.content"></div>
+        <span *ngIf="!isUser(message) && message.loading">
+          <div
+              (loader)="loader"
+              class="pulse-loader"
+              [style.width]="loader.width"
+              [style.height]="loader.height"
+              [style.color]="loader.color">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </span>
+      </span>
   </div>
   }
 </div>

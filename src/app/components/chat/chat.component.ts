@@ -62,17 +62,18 @@ export class ChatComponent {
     this.chatService.postChat(message, true).subscribe({
       next: (event: HttpEvent<string>) => {
         if (event.type === HttpEventType.DownloadProgress) {
+          responseMessage.loading = false;
           responseMessage.content += JSON.parse(((
             event as HttpDownloadProgressEvent
           ).partialText + "").split('\n').slice(-2)[0]).message.content;
         } else if (event.type === HttpEventType.Response) {
           this.loadingResponse = false;
-          responseMessage.loading = false;
         }
       },
       error: () => {
         this.loadingResponse = false;
       },
+      complete: () => console.log('Observable emitted the complete notification')
     });
 
     // .pipe(
