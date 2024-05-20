@@ -18,27 +18,13 @@ export class ChatComponent {
   
   inputMessage: string = ''; 
   messages = model<Message[]>([]);
-  loadingResponse = false;
+  loadingResponse: boolean = false;
  
 
   constructor( 
     private messageIdService: MessageIdServiceService,
     private chatService: ChatService
-  ) {
-    const message1: Message = {
-      "id": this.messageIdService.generateUniqueId(),
-      "role": "user",
-      "content": 'salut',
-    };
-    const message2: Message = {
-      "id": this.messageIdService.generateUniqueId(),
-      "role": "assistant",
-      "content": 'salut, comment ça va ?',
-    };
-    this.messages.update(values => {
-      return [...values, message1, message2];
-   });
-  }
+  ) {}
 
   sendInputMessage() {
 
@@ -75,24 +61,6 @@ export class ChatComponent {
       },
       complete: () => console.log('Observable emitted the complete notification')
     });
-
-    // .pipe(
-    //   map((event: HttpEvent<string>) => {
-    //       if(event.type === HttpEventType.DownloadProgress){
-    //         console.log('Download Progress');
-    //         return responseMessage.content = (
-    //           event as HttpDownloadProgressEvent
-    //         ).partialText + "…";
-    //       } else if (event.type === HttpEventType.Response){
-    //         this.loadingResponse = false;
-    //         return responseMessage.content = event.body !== null ? event.body : "…";
-    //       } else {
-    //         return responseMessage.content = "…";
-    //       }
-
-    //     }
-    //   )
-    // ).
   }
 
   pushMessage(message: Message) {

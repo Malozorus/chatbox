@@ -1,6 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 
+
 body {
-  margin: 0;
+    margin: 0;
 }
+.mat-typography p {
+    font-size: 16px; // Example: Change font size
+    line-height: 1.6; // Example: Change line height
+    margin: 0; // Example: Remove margin
+    font-weight: normal; // Example: Adjust weight
+  }

@@ -1,4 +1,4 @@
-import { Component, model, output } from '@angular/core';
+import { Component, model, output, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -11,6 +11,11 @@ import { FormsModule } from '@angular/forms';
 export class MessageInputComponent {
   inputMessage = model<string>('');
   sendButtonClicked = output();
+  blockInput = input<boolean>(false);
+
+  ngOnInit() {
+    console.log('blockInput', this.blockInput());
+  }
 
   sendClick(){
     this.sendButtonClicked.emit();

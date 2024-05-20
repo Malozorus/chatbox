@@ -5,7 +5,7 @@
     [ngClass]="isUser(message) ? 'sent' : 'received'"
     id="message-{{ $index }}"
   >
-    <span> <div markdown emoji clipboard [data]="message.content"></div>
+    <span> <div class="mat-p" markdown emoji clipboard [data]="message.content"></div>
         <span *ngIf="!isUser(message) && message.loading">
           <div
               (loader)="loader"

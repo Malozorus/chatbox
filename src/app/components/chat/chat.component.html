@@ -1,6 +1,6 @@
 <div id="chat">
     <div class="messageList">
-      <app-message-list [messages]="messages()"/>
+      <app-message-list [messages]="messages()" />
     </div>
     <div class="messageInput">
       <app-message-input [(inputMessage)]="inputMessage" (sendButtonClicked)="sendInputMessage()"/>
