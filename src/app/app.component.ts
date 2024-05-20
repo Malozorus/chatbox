@@ -1,8 +1,6 @@
-import { Component, model } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MessageInputComponent } from './components/message-input/message-input.component';
 import { FormsModule } from '@angular/forms';
-import { MessageListComponent } from './components/message-list/message-list.component';
 import { ChatComponent } from './components/chat/chat.component';
 
 

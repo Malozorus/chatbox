@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { Observable, map } from 'rxjs';
-import { Message, ModelTag, OllamaChatPromptBody, OllamaChatResponseBody, PaginationParams } from '../types';
-import { json } from 'stream/consumers';
+import { Observable, map, of } from 'rxjs';
+import { Message, ModelTag, OllamaChatPromptBody, OllamaChatResponseBody } from '../types';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +52,8 @@ postChat(message: Message): Observable<Message> {
       ],
       stream: false
   };
+
+  return of(message);
 
   return this.apiService.post<OllamaChatResponseBody>(
       this.baseUrl + "/chat",

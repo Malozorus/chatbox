@@ -1,4 +1,11 @@
-import { Component, effect,model, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  effect,
+  model,
+  ViewChild,
+  ElementRef,
+  input,
+} from '@angular/core';
 import { Message } from '../../types';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -8,19 +15,21 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './message-list.component.html',
-  styleUrl: './message-list.component.scss'
+  styleUrl: './message-list.component.scss',
 })
-export class MessageListComponent{
-
+export class MessageListComponent {
   messages = model<Message[]>([]);
-  @ViewChild('messageList') messageList!: ElementRef;
-  
+
   constructor(private router: Router) {
     effect(() => {
-      console.log(`New changes in messages: ${this.messages()}`);
-      this.messageList.nativeElement.scrollTop  = this.messageList.nativeElement.scrollHeight;
-      this.router.navigate(['/chat', {'messageList': this.messages().length }]);
-      console.log(this.messageList.nativeElement.scrollTop , this.messageList.nativeElement.scrollHeight)  
+      console.log(`New changes in messages: ${this.messages()}`); 
+      this.router.navigate([''], {
+        fragment: `message-${this.messages().length - 1}`,
+      });
     });
+  }
+
+  isUser(message: Message) {
+    return message.role === 'user';
   }
 }

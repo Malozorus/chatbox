@@ -1,10 +1,11 @@
 <div #messageList class="messageList">
-    @for (message of messages; track messages) {
-        <div class="messageBox sent" *ngIf="message.role=='user'">
-                {{message.content}}
-        </div>
-        <div class="messageBox received" *ngIf="message.role=='assistant'">
-            {{message.content}}
-        </div>
-    } 
-</div>     
+  @for (message of messages(); track $index) {
+  <div
+    class="messageBox"
+    [ngClass]="isUser(message) ? 'sent' : 'received'"
+    id="message-{{ $index }}"
+  >
+    <span> {{ message.content }}</span>
+  </div>
+  }
+</div>
