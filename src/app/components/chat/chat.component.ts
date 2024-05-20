@@ -4,6 +4,8 @@ import { MessageIdServiceService } from '../../services/message-id-service.servi
 import { ChatService } from '../../services/chat.service';
 import { MessageInputComponent } from '../message-input/message-input.component';
 import { MessageListComponent } from '../message-list/message-list.component';
+import { HttpDownloadProgressEvent, HttpEvent, HttpEventType, HttpResponse, } from '@angular/common/http';
+import { map, mergeMap } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -16,6 +18,7 @@ export class ChatComponent {
   
   inputMessage: string = ''; 
   messages = model<Message[]>([]);
+  loadingResponse = false;
  
 
   constructor( 
@@ -38,17 +41,57 @@ export class ChatComponent {
   }
 
   sendInputMessage() {
+
     const message: Message = {
       "id": this.messageIdService.generateUniqueId(),
       "role": "user",
       "content": this.inputMessage,
     };
     this.pushMessage(message);
+    this.loadingResponse = true;
     this.inputMessage = '';
-    this.chatService.postChat(message).subscribe((data) => {
-      data.id = this.messageIdService.generateUniqueId();
-      this.pushMessage(data);
+
+    const responseMessage: Message = {
+      "id": "",
+      "role": "assistant",
+      "content": "",
+      "loading": true,
+    };
+
+    this.pushMessage(responseMessage);
+    this.chatService.postChat(message, true).subscribe({
+      next: (event: HttpEvent<string>) => {
+        if (event.type === HttpEventType.DownloadProgress) {
+          responseMessage.content += JSON.parse(((
+            event as HttpDownloadProgressEvent
+          ).partialText + "").split('\n').slice(-2)[0]).message.content;
+        } else if (event.type === HttpEventType.Response) {
+          this.loadingResponse = false;
+          responseMessage.loading = false;
+        }
+      },
+      error: () => {
+        this.loadingResponse = false;
+      },
     });
+
+    // .pipe(
+    //   map((event: HttpEvent<string>) => {
+    //       if(event.type === HttpEventType.DownloadProgress){
+    //         console.log('Download Progress');
+    //         return responseMessage.content = (
+    //           event as HttpDownloadProgressEvent
+    //         ).partialText + "…";
+    //       } else if (event.type === HttpEventType.Response){
+    //         this.loadingResponse = false;
+    //         return responseMessage.content = event.body !== null ? event.body : "…";
+    //       } else {
+    //         return responseMessage.content = "…";
+    //       }
+
+    //     }
+    //   )
+    // ).
   }
 
   pushMessage(message: Message) {

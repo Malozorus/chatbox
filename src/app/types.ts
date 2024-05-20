@@ -10,7 +10,7 @@ export interface Options {
         [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
     };
     reportProgress?: boolean;
-    responseType?: 'json';
+    responseType: 'json';
     withCredentials?: boolean;
     transferCache?: {
         includeHeaders?: string[];
@@ -78,6 +78,25 @@ export interface OllamaChatResponseBody {
         eval_duration?:number;
       }
 
+
+export interface OllamaChatStreamResponseBody {
+        done: boolean;
+        id?: string;
+        model?: string;
+        created_at?: Date;
+        message?: {
+          role: string;
+          content: string;
+        },
+        done_reason?: string;
+        total_duration?: number;
+        load_duration?: number;
+        prompt_eval_count?: number;
+        prompt_eval_duration?: number;
+        eval_count?: number;
+        eval_duration?:number;
+    }
+
 export interface Message {
     id: string;
     model?: string;
@@ -85,7 +104,18 @@ export interface Message {
     content: string;
     images?: string[];
     childIds?: string[];
+    loading?: Boolean;
 }
+
+export interface OutputMessage {
+    id?: string | '';
+    model?: string | '';
+    role?: string | 'assistant';
+    content?: string | '';
+    images?: string[];
+    done: boolean | false;
+}
+
 
 export interface History {
     id: string;

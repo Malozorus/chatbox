@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Observable, map, of } from 'rxjs';
-import { Message, ModelTag, OllamaChatPromptBody, OllamaChatResponseBody } from '../types';
+import { Message, ModelTag, OllamaChatPromptBody, OllamaChatResponseBody, OllamaChatStreamResponseBody, OutputMessage } from '../types';
 
 @Injectable({
   providedIn: 'root'
@@ -27,20 +27,20 @@ export class ChatService {
     );
   }
 
-  formatOllamaChatResponseToMessage(response: OllamaChatResponseBody): Message {
-    const message: Message = {
+  formatOllamaChatStreamResponseToMessage(response: OllamaChatStreamResponseBody): OutputMessage {
+    const outMessage: OutputMessage = {
+        done : response.done,
         id: '', // Vous devez peut-être générer un ID unique ici ou récupérer depuis une autre source
         model: response.model,
-        role: response.message.role,
-        content: response.message.content,
+        role: response.message != undefined ? response.message.role : "assistant",
+        content: response.message != undefined ? response.message.content : "",
         images: [], // Remplissez cette propriété si nécessaire
-        childIds: [] // Remplissez cette propriété si nécessaire
     };
-    return message;
+    return outMessage;
 }
 
   // Fonction principale pour envoyer un message et récupérer la réponse
-postChat(message: Message): Observable<Message> {
+postChat(message: Message, stream: boolean): Observable<any> {
   // Création du corps de la requête pour Ollama
   const ollamaChatPromptBody: OllamaChatPromptBody = {
       model: message.model || "llama3",
@@ -50,25 +50,20 @@ postChat(message: Message): Observable<Message> {
               content: message.content
           }
       ],
-      stream: false
+      stream: stream
   };
 
-  return of(message);
-
-  return this.apiService.post<OllamaChatResponseBody>(
+    return this.apiService.post<OutputMessage>(
       this.baseUrl + "/chat",
       ollamaChatPromptBody,
       {
-        responseType: 'json',
+        observe: 'events' as 'body',
+        responseType: 'text' as 'json',
+        reportProgress: true,
         headers: {
           accept: "application/json",
           Authorization: this.authToken
         }
-      }).pipe(
-          map(data => { 
-            return this.formatOllamaChatResponseToMessage(data)
-            }) // Utilise l'opérateur `map` pour transformer la réponse
-        ) 
-  
-}
+      })
+    } 
 }

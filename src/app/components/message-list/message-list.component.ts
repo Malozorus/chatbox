@@ -5,6 +5,7 @@ import {
   ViewChild,
   ElementRef,
   input,
+  Input,
 } from '@angular/core';
 import { Message } from '../../types';
 import { CommonModule } from '@angular/common';

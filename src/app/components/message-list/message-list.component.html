@@ -5,7 +5,7 @@
     [ngClass]="isUser(message) ? 'sent' : 'received'"
     id="message-{{ $index }}"
   >
-    <span> {{ message.content }}</span>
+    <span> {{ message.content }}<span *ngIf="!isUser(message) && message.loading">...</span> </span>
   </div>
   }
 </div>
