@@ -40,17 +40,12 @@ export class ChatService {
 }
 
   // Fonction principale pour envoyer un message et récupérer la réponse
-postChat(message: Message, stream: boolean): Observable<any> {
+postChat(messages: Message[], model: string): Observable<any> {
   // Création du corps de la requête pour Ollama
   const ollamaChatPromptBody: OllamaChatPromptBody = {
-      model: message.model || "llama3",
-      messages: [
-          {
-              role: "user",
-              content: message.content
-          }
-      ],
-      stream: stream
+      model: model || "llama3",
+      messages: messages,
+      stream: true
   };
 
     return this.apiService.post<OutputMessage>(

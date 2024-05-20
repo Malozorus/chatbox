@@ -45,7 +45,7 @@ export class ChatComponent {
     };
 
     this.pushMessage(responseMessage);
-    this.chatService.postChat(message, true).subscribe({
+    this.chatService.postChat(this.messages(), "llama3").subscribe({
       next: (event: HttpEvent<string>) => {
         if (event.type === HttpEventType.DownloadProgress) {
           responseMessage.loading = false;

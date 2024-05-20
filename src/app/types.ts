@@ -46,15 +46,7 @@ export interface PaginationParams {
 
 export interface OllamaChatPromptBody {
     model: string;
-    messages: [
-        {
-        role: string;
-        content: string;
-        images?: [
-            string
-            ]
-        }
-    ];
+    messages: Message[];
     format?: string,
     options?: {},
     template?: string,
