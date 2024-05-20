@@ -11,7 +11,14 @@
 }
 
 .messageInput {
-    flex-grow: 0; /* Does not grow */
-    padding-inline: 10%;
-    padding-top: 10px; /* Optional: add some padding to separate the input from the message list */
-}
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(272.07deg, #4B9EB8 0.09%, #6D349A 99.91%);
+    display: flex;
+    justify-content: center;
+    app-message-input{
+        width: 95%;
+    }
+
+}   
+
